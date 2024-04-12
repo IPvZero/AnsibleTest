@@ -1,0 +1,15 @@
+---
+- name: "Test playbook"
+  hosts: bluebox
+  gather_facts: false
+  tasks:
+    - name: "Testing whether a file exists"
+      ansible.builtin.stat:
+        path: /tmp/randomfile.txt
+      register: result
+
+    - name: "Assert whether the file exists"
+      ansible.builtin.assert:
+        that: result.stat.exists
+        success_msg: "The file exists on {{ inventory_hostname }}"
+        fail_msg: "The file does not exist on  {{ inventory_hostname}}"
